@@ -23,8 +23,6 @@ export const envSchema = z.object({
   RABBIT_VHOST: z.string().trim().min(1),
   RABBIT_RECEIVE_FROM: z.string().trim().min(1),
 
-  MONGODB_URI: z.string().trim().min(1),
-
   MYSQL_HOST: z.string().trim().min(1),
   MYSQL_PORT: z.preprocess((val) => Number(val), z.number()),
   MYSQL_USERNAME: z.string().trim().min(1),
@@ -65,8 +63,6 @@ export const configFn = () =>
     RABBIT_PORT: process.env.RABBIT_PORT,
     RABBIT_VHOST: process.env.RABBIT_VHOST,
     RABBIT_RECEIVE_FROM: process.env.RABBIT_RECEIVE_FROM,
-
-    MONGODB_URI: process.env.MONGODB_URI,
 
     MYSQL_HOST: process.env.MYSQL_HOST,
     MYSQL_PORT: process.env.MYSQL_PORT,
