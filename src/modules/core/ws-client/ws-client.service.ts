@@ -62,11 +62,18 @@ export class WsClientService {
               where: {
                 dollar: MoreThanOrEqual(Number(usdPriceFormatted)),
                 chain: network,
+                isSent: false,
               },
             });
 
-            for (const alert of alerts) {
-              await this.pushEmailService.pushEmailAlert(tokenName || 'unknown', network, usdPriceFormatted || '0', alert.email);
+            const emailPromises = alerts.map((alert) => this.pushEmailService.pushEmailAlert(tokenName || 'unknown', network, usdPriceFormatted || '0', alert.email));
+
+            await Promise.all(emailPromises);
+
+            const alertIds = alerts.map((alert) => alert.id);
+
+            if (alertIds.length > 0) {
+              await this.alertRepository.update(alertIds, { isSent: true });
             }
 
             console.log(`Saved price for ${tokenSymbol}: $${usdPriceFormatted}`);

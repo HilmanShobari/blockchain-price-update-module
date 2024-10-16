@@ -14,6 +14,9 @@ export class Alert {
   @Column()
   email!: string;
 
+  @Column({default: false})
+  isSent!: boolean;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
